@@ -1,5 +1,4 @@
 import { IReportModel } from "../models/report";
-import ReportModel from "../models/report";
 import { IReportRepository } from "./IReportRepository";
 import { Pool } from "pg";
 
@@ -10,8 +9,6 @@ export default class ReportRepositoryDb implements IReportRepository {
   }
 
   async getReporsWithAnomaly(): Promise<IReportModel[]> {
-    //obtiene los reportes con anomaly retorna
-    //{[{hasAnomaly:true}]}
     const reportsData = await this.dbClient.query(
       "select hasAnomaly from reports where hasAnomaly=true"
     );
@@ -26,7 +23,6 @@ export default class ReportRepositoryDb implements IReportRepository {
   }
 
   async create(report: IReportModel): Promise<IReportModel> {
-    //guarda en la bd
     await this.dbClient.query("insert into reports(hasanomaly) values($1)", [
       String(report.hasAnomaly),
     ]);
