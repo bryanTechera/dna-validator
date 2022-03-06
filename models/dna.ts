@@ -18,36 +18,41 @@ export class DnaModel implements IDnaModel {
   }
 
   private validate() {
-    this.validateSquare(this.matrix);
-    this.validateMinDimensions(this.matrix);
-    this.validateMaxDimensions(this.matrix);
+    this.validateRowsLength();
+    this.validateMinDimensions();
+    this.validateMaxDimensions();
   }
 
-  private validateSquare = (matrix: Matrix) => {
-    const { rows, cols } = this.getMatrixDimensions(matrix);
-    const err = new Error();
-    err.name = "dnaNotValid";
-    err.message = "The matrix is not square";
-    if (rows !== cols) {
-      throw err;
+  private validateRowsLength = () => {
+    const { rows } = this.getMatrixDimensions();
+    for (let row = 0; row < rows; row++) {
+      if (this.matrix[row].length !== this.matrix[0].length) {
+        const err = new Error();
+        err.name = "dnaNotValid";
+        err.message = "Rows have different length";
+        throw err;
+      }
     }
   };
-  private validateMinDimensions = (matrix: Matrix) => {
-    const { rows, cols } = this.getMatrixDimensions(matrix);
-    const err = new Error();
-    err.name = "dnaNotValid";
-    err.message = "The matrix does not have min 3 rows and min 3 columns";
+  private validateMinDimensions = () => {
+    const { rows, cols } = this.getMatrixDimensions();
+
     if (rows < 3 || cols < 3) {
+      const err = new Error();
+      err.name = "dnaNotValid";
+      err.message = "The matrix does not have min 3 rows and min 3 columns";
       throw err;
     }
   };
 
-  private validateMaxDimensions = (matrix: Matrix) => {
-    const { rows, cols } = this.getMatrixDimensions(matrix);
-    const err = new Error();
-    err.name = "dnaNotValid";
-    err.message = "The matrix does not have max 2000 rows and max 2000 columns";
+  private validateMaxDimensions = () => {
+    const { rows, cols } = this.getMatrixDimensions();
+
     if (rows > 2000 || cols > 2000) {
+      const err = new Error();
+      err.name = "dnaNotValid";
+      err.message =
+        "The matrix does not have max 2000 rows and max 2000 columns";
       throw err;
     }
   };
@@ -62,7 +67,7 @@ export class DnaModel implements IDnaModel {
   }
 
   private isHorizontalAnomaly = (): boolean => {
-    const { rows, cols } = this.getMatrixDimensions(this.matrix);
+    const { rows, cols } = this.getMatrixDimensions();
     let result = false;
 
     for (let row = 0; row < rows; row++) {
@@ -81,7 +86,7 @@ export class DnaModel implements IDnaModel {
   };
 
   private isVerticalAnomaly = (): boolean => {
-    const { rows, cols } = this.getMatrixDimensions(this.matrix);
+    const { rows, cols } = this.getMatrixDimensions();
     let result = false;
 
     for (let col = 0; col < cols; col++) {
@@ -100,7 +105,7 @@ export class DnaModel implements IDnaModel {
   };
 
   private isDiagonalAnomaly = (): boolean => {
-    const { rows, cols } = this.getMatrixDimensions(this.matrix);
+    const { rows, cols } = this.getMatrixDimensions();
     let result = false;
 
     for (let row = 0; row < rows - 2; row++) {
@@ -119,7 +124,7 @@ export class DnaModel implements IDnaModel {
   };
 
   private isAntiDiagonalAnomaly = (): boolean => {
-    const { rows, cols } = this.getMatrixDimensions(this.matrix);
+    const { rows, cols } = this.getMatrixDimensions();
     let result = false;
 
     for (let row = 0; row < rows - 2; row++) {
@@ -137,8 +142,8 @@ export class DnaModel implements IDnaModel {
     return result;
   };
 
-  private getMatrixDimensions = (matrix: Matrix): MatrixDimensions => ({
-    rows: matrix.length,
-    cols: matrix[0].length,
+  private getMatrixDimensions = (): MatrixDimensions => ({
+    rows: this.matrix.length,
+    cols: this.matrix[0].length,
   });
 }

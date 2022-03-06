@@ -1,11 +1,11 @@
 import { DnaModel } from "./dna";
 
-test("should return error if matrix is not square", () => {
+test("should return error if rows dont have same length", () => {
   const matrix = [
     ["A", "A", "Z"],
-    ["X", "P", "O"],
-    ["F", "R", "Q"],
-    ["G", "K", "T"],
+    ["Ñ", "K", "O"],
+    ["Q", "A", "F"],
+    ["X", "G", "O", "O"],
   ];
 
   expect(() => new DnaModel(matrix)).toThrow();
