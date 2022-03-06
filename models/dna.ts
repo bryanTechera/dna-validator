@@ -14,7 +14,7 @@ export class DnaModel implements IDnaModel {
 
   constructor(matrix: Matrix) {
     this.matrix = matrix;
-    this.validateMatrix();
+    this.validate();
   }
 
   public isAnomaly(): boolean {
@@ -26,14 +26,39 @@ export class DnaModel implements IDnaModel {
     );
   }
 
-  private validateMatrix() {
-    const { rows, cols } = this.getMatrixDimensions(this.matrix);
+  private validateSquare = (matrix: Matrix) => {
+    const { rows, cols } = this.getMatrixDimensions(matrix);
+    const err = new Error();
+    err.name = "dnaNotValid";
+    err.message = "The matrix is not square";
     if (rows !== cols) {
-      const err = new Error();
-      err.name = "dnaNotSquare";
-      err.message = "This dna matris is not supported";
       throw err;
     }
+  };
+  private validateMinDimensions = (matrix: Matrix) => {
+    const { rows, cols } = this.getMatrixDimensions(matrix);
+    const err = new Error();
+    err.name = "dnaNotValid";
+    err.message = "The matrix does not have min 3 rows and min 3 columns";
+    if (rows < 3 || cols < 3) {
+      throw err;
+    }
+  };
+
+  private validateMaxDimensions = (matrix: Matrix) => {
+    const { rows, cols } = this.getMatrixDimensions(matrix);
+    const err = new Error();
+    err.name = "dnaNotValid";
+    err.message = "The matrix does not have max 2000 rows and max 2000 columns";
+    if (rows > 2000 || cols > 2000) {
+      throw err;
+    }
+  };
+
+  private validate() {
+    this.validateSquare(this.matrix);
+    this.validateMinDimensions(this.matrix);
+    this.validateMaxDimensions(this.matrix);
   }
 
   private isHorizontalAnomaly = (): boolean => {

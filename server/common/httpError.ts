@@ -3,9 +3,7 @@ interface IErrorPayload {
   message: string;
 }
 
-const ErrorNameToStatusCode = new Map<string, number>([
-  ["matrixNotSquare", 400],
-]);
+const ErrorNameToStatusCode = new Map<string, number>([["dnaNotValid", 400]]);
 export class HttpError {
   constructor(private error: Error) {}
 

@@ -1,4 +1,35 @@
 import { DnaModel } from "./dna";
+
+test("should return error if matrix is not square", () => {
+  const matrix = [
+    ["A", "A", "Z"],
+    ["X", "P", "O"],
+    ["F", "R", "Q"],
+    ["G", "K", "T"],
+  ];
+
+  expect(() => new DnaModel(matrix)).toThrow();
+});
+
+test("should return error if matrix have less than 3 rows or columns", () => {
+  const matrix = [
+    ["A", "A", "Z"],
+    ["X", "P", "O"],
+  ];
+
+  expect(() => new DnaModel(matrix)).toThrow();
+});
+
+test("should return error if matrix have more than 2000 rows or columns", () => {
+  const matrix = [
+    ...Array(2001)
+      .fill(0)
+      .map(() => Array(2001).fill(0)),
+  ];
+
+  expect(() => new DnaModel(matrix)).toThrow();
+});
+
 test("no horizontally consecutive letters", () => {
   const matrix = [
     ["A", "B", "C", "D"],

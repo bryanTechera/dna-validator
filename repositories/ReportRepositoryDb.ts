@@ -13,14 +13,14 @@ export default class ReportRepositoryDb implements IReportRepository {
     //obtiene los reportes con anomaly retorna
     //{[{hasAnomaly:true}]}
     const reportsData = await this.dbClient.query(
-      "select hasAnomaly from report where hasAnomaly=true"
+      "select hasAnomaly from reports where hasAnomaly=true"
     );
     return reportsData.rows;
   }
 
   async getReportsWhitoutAnomaly(): Promise<IReportModel[]> {
     const reportsData = await this.dbClient.query(
-      "select hasAnomaly from report where hasAnomaly=false"
+      "select hasAnomaly from reports where hasAnomaly=false"
     );
     return reportsData.rows;
   }
