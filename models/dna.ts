@@ -17,13 +17,10 @@ export class DnaModel implements IDnaModel {
     this.validate();
   }
 
-  public isAnomaly(): boolean {
-    return (
-      this.isHorizontalAnomaly() ||
-      this.isVerticalAnomaly() ||
-      this.isDiagonalAnomaly() ||
-      this.isAntiDiagonalAnomaly()
-    );
+  private validate() {
+    this.validateSquare(this.matrix);
+    this.validateMinDimensions(this.matrix);
+    this.validateMaxDimensions(this.matrix);
   }
 
   private validateSquare = (matrix: Matrix) => {
@@ -55,10 +52,13 @@ export class DnaModel implements IDnaModel {
     }
   };
 
-  private validate() {
-    this.validateSquare(this.matrix);
-    this.validateMinDimensions(this.matrix);
-    this.validateMaxDimensions(this.matrix);
+  public isAnomaly(): boolean {
+    return (
+      this.isHorizontalAnomaly() ||
+      this.isVerticalAnomaly() ||
+      this.isDiagonalAnomaly() ||
+      this.isAntiDiagonalAnomaly()
+    );
   }
 
   private isHorizontalAnomaly = (): boolean => {
