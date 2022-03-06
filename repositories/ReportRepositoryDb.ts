@@ -27,7 +27,7 @@ export default class ReportRepositoryDb implements IReportRepository {
 
   async create(report: IReportModel): Promise<IReportModel> {
     //guarda en la bd
-    await this.dbClient.query("insert into report(hasanomaly) values($1)", [
+    await this.dbClient.query("insert into reports(hasanomaly) values($1)", [
       String(report.hasAnomaly),
     ]);
     return report;
